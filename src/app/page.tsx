@@ -1,30 +1,22 @@
 'use client';
 import Layout from "../components/Layout";
-import Image from "next/image";
 import Tabela from "../components/Tabela";
-import Cliente from "../core/Cliente";
 import Botao from "../components/Botao"
+import Formulario from "@/components/Formulario";
+import useClientes from "@/hooks/useClientes";
 
 export default function Home() {
 
-  const clientes = [
-    new Cliente('Ana', 34, 1),
-    new Cliente('Bia', 33, 2),
-    new Cliente('Leticia', 32, 3),
-    new Cliente('Tanisha', 31, 4) 
-  ]
-
-  JSON.stringify(clientes)
-
-  function clienteSelecionado(cliente: Cliente) {
-    console.log(cliente.nome)
-
-  }
-
-  function clienteExcluido(cliente: Cliente) {
-    console.log(`Excluindo... ${cliente.nome}`)
-
-  }
+  const {
+    cliente,
+    clientes,
+    excluirCliente,
+    exibirTabela,
+    novoCliente,
+    selecionarCliente,
+    salvarCliente,
+    tabelaVisivel
+  } = useClientes()
 
   return (
     <div className={`
@@ -32,13 +24,23 @@ export default function Home() {
       from-purple-500 to-blue-600 text-white`
     }>
       <Layout titulo="Cad Unico">
-        <div className="flex justify-end">
-          <Botao cor="green" className="mb-2">Novo Usuario</Botao>
-        </div>
-        <Tabela clientes={clientes}
-          clienteSelecionado={clienteSelecionado}
-          clienteExcluido={clienteExcluido}          
-        />
+        {tabelaVisivel ? (
+           <>
+           <div className="flex justify-end">
+             <Botao cor="green" className="mb-2" 
+                onClick={novoCliente}>Novo Usuario</Botao>
+           </div>
+           <Tabela clientes={clientes}
+             clienteSelecionado={selecionarCliente} 
+             clienteExcluido={excluirCliente}            
+           />
+           </>
+        ) : (
+          <Formulario 
+            cliente={cliente}
+            clienteMudou={salvarCliente}
+            cancelado={exibirTabela}></Formulario>
+        )}
       </Layout>
     </div>
   );

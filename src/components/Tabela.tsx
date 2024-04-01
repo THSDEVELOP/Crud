@@ -1,4 +1,3 @@
-'use client';
 import Cliente from "@/core/Cliente";
 import { table } from "console";
 import { IconeEdicao, IconeLixo } from "./Icones";
@@ -12,8 +11,6 @@ interface TabelaProps{
 }
 
 export default function Tabela(props: TabelaProps){
- 
-    
     const exibirAcoes = props.clienteExcluido || props.clienteSelecionado
     
     function renderizarCabecalho(){
